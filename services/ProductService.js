@@ -1,5 +1,27 @@
 const ProductModel = require('../models/ProductModel');
 
+// aqui é retornado um array com um boolean e um erro caso o NAME for inválido
+const validateName = (name) => {
+  if (!name) {
+    return [false, {
+      error: {
+        code: 'badRequest',
+        message: '"name" is required',
+      },
+    }];
+  }
+  if (name.length < 5) {
+    return [false, {
+      error: {
+        code: 'unprocessableEntity',
+        message: '"name" length must be at least 5 characters long',
+      },
+    }];
+  }
+
+  return [true];
+};
+
 // GET
 const getAll = async () => {
   const products = await ProductModel.getAll();
@@ -17,13 +39,16 @@ const getById = async (id) => {
       },
     };
   }
- 
+
   return product;
 };
 
 // POST
 const addProduct = async (name) => {
+  if (!validateName(name)[0]) return validateName(name)[1];
+
   const productNameAndId = await ProductModel.addProduct(name);
+
   return productNameAndId;
 };
 

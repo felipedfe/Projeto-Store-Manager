@@ -18,9 +18,13 @@ const getById = async (req, res, next) => {
 };
 
 // POST
-const addProduct = async (req, res, _next) => {
+const addProduct = async (req, res, next) => {
   const { name } = req.body;
+  
   const productNameAndId = await ProductService.addProduct(name);
+
+  if (productNameAndId.error) return next(productNameAndId.error);
+
   return res.status(201).json(productNameAndId);
 };
 

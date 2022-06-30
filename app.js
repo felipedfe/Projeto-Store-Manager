@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
 // requisito 1
 app.get('/products', ProductController.getAll);
 app.get('/products/:id', ProductController.getById);
+app.post('/products', ProductController.addProduct);
 
 app.use(errorMiddleware);
 // não remova essa exportação, é para o avaliador funcionar

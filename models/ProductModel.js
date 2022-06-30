@@ -1,5 +1,6 @@
 const connection = require('./connection');
 
+// GET
 const getAll = async () => {
   const query = 'SELECT * FROM StoreManager.products;';
   const [products] = await connection.execute(query);
@@ -17,7 +18,19 @@ const getById = async (id) => {
   return product[0];
 };
 
+// POST
+const addProduct = async (name) => {
+  const query = 'INSERT INTO StoreManager.products(name) VALUES(?);';
+  const [product] = await connection.execute(query, [name]);
+
+  return {
+    id: product.insertId,
+    name,
+  };
+};
+
 module.exports = {
   getAll,
   getById,
+  addProduct,
 };

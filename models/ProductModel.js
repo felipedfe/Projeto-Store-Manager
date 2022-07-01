@@ -19,10 +19,10 @@ const getBySaleIdQuery = `
   ON sp.sale_id = s.id
   WHERE sp.sale_id = ?
   ORDER BY sp.sale_id ASC, sp.product_id ASC;`;
-const updateProductQuery = `
-  UPDATE StoreManager.products
-  SET name = 'Martelo do Batman'
-  WHERE id = 1;`;
+// const updateProductQuery = `
+//   UPDATE StoreManager.products
+//   SET name = 'Martelo do Batman'
+//   WHERE id = 1;`;
 
 const serializeSales = (sales) => sales.map((item) => ({
     saleId: item.sale_id,
@@ -90,7 +90,7 @@ const addSales = async (itemsSold) => {
 
   return {
     id: sale.insertId,
-    itemsSold,
+    itemsSold,  
   };
 };
 

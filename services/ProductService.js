@@ -37,6 +37,26 @@ const getById = async (id) => {
   return product;
 };
 
+const getSales = async () => {
+  const sales = ProductModel.getSales();
+  return sales;
+};
+
+const getSalesById = async (id) => {
+  const sale = await ProductModel.getSalesById(id);
+
+  if (sale.length === 0) {
+    return {
+      error: {
+        code: 'notFound',
+        message: 'Sale not found',
+      },
+    };
+  }
+
+  return sale;
+};
+
 // POST
 const addProduct = async (name) => {
   if (!validateName(name)[0]) return validateName(name)[1];
@@ -82,4 +102,6 @@ module.exports = {
   addProduct,
   addSales,
   checkIds,
+  getSales,
+  getSalesById,
 };

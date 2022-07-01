@@ -10,12 +10,12 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-// requisito 1
-app.get('/products', ProductController.getAll);
 app.get('/products/:id', ProductController.getById);
-// requisito 3
+app.get('/products', ProductController.getAll);
 app.post('/products', ProductController.addProduct);
-// requisito 6
+
+app.get('/sales/:id', ProductController.getSalesById);
+app.get('/sales', ProductController.getSales);
 app.post('/sales', ProductController.addSales);
 
 app.use(errorMiddleware);

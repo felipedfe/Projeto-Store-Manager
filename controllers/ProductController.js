@@ -19,6 +19,20 @@ const getById = async (req, res, next) => {
   return res.status(200).json(product);
 };
 
+const getSales = async (_req, res) => {
+  const sales = await ProductService.getSales();
+  return res.status(200).send(sales);
+};
+
+const getSalesById = async (req, res, next) => {
+  const { id } = req.params;
+  const sale = await ProductService.getSalesById(id);
+
+  if (sale.error) return next(sale.error);
+
+  res.status(200).send(sale);
+};
+
 // POST
 const addProduct = async (req, res, next) => {
   const { name } = req.body;
@@ -59,4 +73,6 @@ module.exports = {
   getById,
   addProduct,
   addSales,
+  getSales,
+  getSalesById,
 };

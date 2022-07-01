@@ -60,7 +60,7 @@ const addSales = async (req, res, next) => {
 
   // aqui é checado no BD se existe um produto com o productId passado na requisição
   const id = await ProductService.checkIds(items);
-  console.log(id);
+ 
   if (id.error) return next(id.error);
 
   const sale = await ProductService.addSales(items);

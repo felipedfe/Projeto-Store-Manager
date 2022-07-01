@@ -74,18 +74,14 @@ const addSales = async (items) => {
 const checkIds = async (items) => {
   const ids = await ProductModel.getProductsIds();
   const idsArray = ids.map((idObject) => idObject.id);
-  let teste;
+  let check;
   items.forEach(({ productId }) => {
-    // teste = ids.find((it) => it.id !== item.productId);
-    // if ( {productId })
-  
     if (!idsArray.includes(productId)) {
-      teste = false;
+      check = false;
     }
   });
 
-  if (teste === false) {
-    console.log(teste);
+  if (check === false) {
     return {
       error: {
         code: 'notFound',
@@ -93,7 +89,7 @@ const checkIds = async (items) => {
       },
     };
   }
-  return 'oi';
+  return {};
 };
 
 module.exports = {

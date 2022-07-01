@@ -7,7 +7,7 @@ const dataMock = require('../../../__tests__/_dataMock');
 const ID = 1;
 const INVALID_ID = 'a';
 
-describe('Busca por produtos', () => {
+describe('Busca por produtos (Camada Model)', () => {
   // after(async () => {
   //   connection.execute.restore();
   // });

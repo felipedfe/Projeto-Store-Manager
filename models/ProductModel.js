@@ -29,8 +29,35 @@ const addProduct = async (name) => {
   };
 };
 
+// Sales queries
+const saleQuery = 'INSERT INTO StoreManager.sales (date) VALUES (NOW());';
+const productsQuery = `
+INSERT INTO StoreManager.sales_products
+(sale_id, product_id, quantity) VALUES (?, ?, ?);`;
+const productIdQuery = 'SELECT id FROM StoreManager.products;';
+
+const addSales = async (itemsSold) => {
+  const [sale] = await connection.execute(saleQuery);
+
+  itemsSold.map(async ({ productId, quantity }) => {
+    await connection.execute(productsQuery, [sale.insertId, productId, quantity]);
+  });
+
+  return {
+    id: sale.insertId,
+    itemsSold,
+  };
+};
+
+const getProductsIds = async () => {
+  const [ids] = await connection.execute(productIdQuery);
+  return ids;
+};
+
 module.exports = {
   getAll,
   getById,
   addProduct,
+  addSales,
+  getProductsIds,
 };

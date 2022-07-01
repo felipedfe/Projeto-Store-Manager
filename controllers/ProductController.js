@@ -68,6 +68,13 @@ const addSales = async (req, res, next) => {
   return res.status(201).json(sale);
 };
 
+// PUT
+
+// const updateSale = async (req, res, next) => {
+//   const { id } = req.body;
+//   res.status(200).send('ok');
+// }
+
 module.exports = {
   getAll,
   getById,

@@ -14,9 +14,10 @@ app.get('/products/:id', ProductController.getById);
 app.get('/products', ProductController.getAll);
 app.post('/products', ProductController.addProduct);
 
-app.get('/sales/:id', ProductController.getSalesById);
 app.get('/sales', ProductController.getSales);
 app.post('/sales', ProductController.addSales);
+app.get('/sales/:id', ProductController.getSalesById);
+// app.put('/sales/:id', ProductController.updateSale);
 
 app.use(errorMiddleware);
 // não remova essa exportação, é para o avaliador funcionar

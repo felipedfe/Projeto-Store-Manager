@@ -23,6 +23,7 @@ const updateProductQuery = `
   UPDATE StoreManager.products
   SET name = ?
   WHERE id = ?;`;
+const deleteProductQuery = 'DELETE FROM StoreManager.products WHERE id = ?;';
 
 const serializeSales = (sales) => sales.map((item) => ({
   saleId: item.sale_id,
@@ -109,6 +110,16 @@ const updateProduct = async (id, name) => {
   };
 };
 
+// DELETE
+
+const deleteProduct = async (id) => {
+  const [result] = await connection.execute(deleteProductQuery, [id]);
+  // console.log(result);
+  const { affectedRows } = result;
+  console.log(affectedRows);
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
@@ -118,4 +129,5 @@ module.exports = {
   getSales,
   getSalesById,
   updateProduct,
+  deleteProduct,
 };

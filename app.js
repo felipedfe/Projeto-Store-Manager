@@ -11,13 +11,13 @@ app.get('/', (_request, response) => {
 });
 
 app.get('/products/:id', ProductController.getById);
+app.put('/products/:id', ProductController.updateProduct);
+app.delete('/products/:id', ProductController.deleteProduct);
+app.get('/sales/:id', ProductController.getSalesById);
 app.get('/products', ProductController.getAll);
 app.post('/products', ProductController.addProduct);
-
 app.get('/sales', ProductController.getSales);
 app.post('/sales', ProductController.addSales);
-app.get('/sales/:id', ProductController.getSalesById);
-app.put('/products/:id', ProductController.updateProduct);
 
 app.use(errorMiddleware);
 // não remova essa exportação, é para o avaliador funcionar

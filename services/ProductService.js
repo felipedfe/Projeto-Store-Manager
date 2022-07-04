@@ -3,15 +3,19 @@ const ProductModel = require('../models/ProductModel');
 // aqui é retornado um array com um boolean e um erro caso o NAME for inválido
 const validateName = (name) => {
   if (!name) {
-    return [false, { error: {
+    return [false, {
+      error: {
         code: 'badRequest',
-        message: '"name" is required' },
+        message: '"name" is required',
+      },
     }];
   }
   if (name.length < 5) {
-    return [false, { error: {
+    return [false, {
+      error: {
         code: 'unprocessableEntity',
-        message: '"name" length must be at least 5 characters long' },
+        message: '"name" length must be at least 5 characters long',
+      },
     }];
   }
   return [true];
@@ -100,12 +104,28 @@ const updateProduct = async (id, name) => {
     return {
       error: {
         code: 'notFound',
-          message: 'Product not found',
+        message: 'Product not found',
       },
     };
   }
 
   return update.response;
+};
+
+// DELETE
+
+const deleteProduct = async (id) => {
+  const result = await ProductModel.deleteProduct(id);
+  if (!result.affectedRows) {
+    return {
+      error: {
+        code: 'notFound',
+        message: 'Product not found',
+      },
+    };
+  }
+
+  return {};
 };
 
 module.exports = {
@@ -117,4 +137,5 @@ module.exports = {
   getSales,
   getSalesById,
   updateProduct,
+  deleteProduct,
 };

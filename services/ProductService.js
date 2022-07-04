@@ -92,6 +92,22 @@ const checkIds = async (items) => {
   return {};
 };
 
+// PUT
+const updateProduct = async (id, name) => {
+  const update = await ProductModel.updateProduct(id, name);
+
+  if (!update.affectedRows) {
+    return {
+      error: {
+        code: 'notFound',
+          message: 'Product not found',
+      },
+    };
+  }
+
+  return update.response;
+};
+
 module.exports = {
   getAll,
   getById,
@@ -100,4 +116,5 @@ module.exports = {
   checkIds,
   getSales,
   getSalesById,
+  updateProduct,
 };

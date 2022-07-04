@@ -19,23 +19,23 @@ const getBySaleIdQuery = `
   ON sp.sale_id = s.id
   WHERE sp.sale_id = ?
   ORDER BY sp.sale_id ASC, sp.product_id ASC;`;
-// const updateProductQuery = `
-//   UPDATE StoreManager.products
-//   SET name = 'Martelo do Batman'
-//   WHERE id = 1;`;
+const updateProductQuery = `
+  UPDATE StoreManager.products
+  SET name = ?
+  WHERE id = ?;`;
 
 const serializeSales = (sales) => sales.map((item) => ({
-    saleId: item.sale_id,
-    date: item.date,
-    productId: item.product_id,
-    quantity: item.quantity,
+  saleId: item.sale_id,
+  date: item.date,
+  productId: item.product_id,
+  quantity: item.quantity,
 }));
-  
+
 const serializeSalesById = (sale) => sale.map((item) => ({
-    date: item.date,
-    productId: item.product_id,
-    quantity: item.quantity,
-  }));
+  date: item.date,
+  productId: item.product_id,
+  quantity: item.quantity,
+}));
 
 // GET
 const getAll = async () => {
@@ -90,15 +90,24 @@ const addSales = async (itemsSold) => {
 
   return {
     id: sale.insertId,
-    itemsSold,  
+    itemsSold,
   };
 };
 
 // PUT
 
-// const updateSale = async (id) => {
-
-// }
+const updateProduct = async (id, name) => {
+  const [result] = await connection.execute(updateProductQuery, [name, id]);
+  console.log('result --> ', result);
+  const { affectedRows } = result;
+  return {
+    response: {
+      id,
+      name,
+    },
+    affectedRows,
+  };
+};
 
 module.exports = {
   getAll,
@@ -108,4 +117,5 @@ module.exports = {
   getProductsIds,
   getSales,
   getSalesById,
+  updateProduct,
 };

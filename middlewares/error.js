@@ -10,6 +10,8 @@ const statusByErrorMessage = {
     422,
   '"quantity" is required': 400,
   '"productId" is required': 400,
+  '"name" is required': 400,
+  '"name" length must be at least 5 characters long': 422,
 };
   
 module.exports = (err, req, res, _next) => {
@@ -17,7 +19,6 @@ module.exports = (err, req, res, _next) => {
     let errorMessage = err.details[0].message;
     const errorDetails = err.details[0];
     const path = errorDetails.path[0];
-
     errorMessage = errorMessage.split(`[${path}].`).join('');
 
     const statusJoi = statusByErrorMessage[errorMessage];

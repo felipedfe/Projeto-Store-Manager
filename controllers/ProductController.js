@@ -53,10 +53,7 @@ const addSales = async (req, res, next) => {
     quantity: Joi.number().min(1).required(),
   })).validate(items);
 
-  if (error) {
-    console.log(error.message);
-    return next(error);
-  }
+  if (error) return next(error);
 
   // aqui é checado no BD se existe um produto com o productId passado na requisição
   const id = await ProductService.checkIds(items);
@@ -70,10 +67,22 @@ const addSales = async (req, res, next) => {
 
 // PUT
 
-// const updateSale = async (req, res, next) => {
-//   const { id } = req.body;
-//   res.status(200).send('ok');
-// }
+const updateProduct = async (req, res, next) => {
+  const { id } = req.params;
+
+  const { error } = Joi.array().items(Joi.object({
+    name: Joi.string().min(5).required(),
+  })).validate([req.body]);
+
+  if (error) return next(error);
+
+  const { name } = req.body;
+  const update = await ProductService.updateProduct(id, name);
+
+  if (update.error) return next(update.error);
+
+  res.status(200).send(update);
+};
 
 module.exports = {
   getAll,
@@ -82,4 +91,5 @@ module.exports = {
   addSales,
   getSales,
   getSalesById,
+  updateProduct,
 };

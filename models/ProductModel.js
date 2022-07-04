@@ -75,7 +75,7 @@ const getProductsIds = async () => {
 const addProduct = async (name) => {
   const query = 'INSERT INTO StoreManager.products(name) VALUES(?);';
   const [product] = await connection.execute(query, [name]);
-
+  console.log(product);
   return {
     id: product.insertId,
     name,
@@ -114,9 +114,6 @@ const updateProduct = async (id, name) => {
 
 const deleteProduct = async (id) => {
   const [result] = await connection.execute(deleteProductQuery, [id]);
-  // console.log(result);
-  const { affectedRows } = result;
-  console.log(affectedRows);
   return result;
 };
 

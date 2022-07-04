@@ -41,26 +41,6 @@ const getById = async (id) => {
   return product;
 };
 
-const getSales = async () => {
-  const sales = ProductModel.getSales();
-  return sales;
-};
-
-const getSalesById = async (id) => {
-  const sale = await ProductModel.getSalesById(id);
-
-  if (sale.length === 0) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Sale not found',
-      },
-    };
-  }
-
-  return sale;
-};
-
 // POST
 const addProduct = async (name) => {
   if (!validateName(name)[0]) return validateName(name)[1];
@@ -68,32 +48,6 @@ const addProduct = async (name) => {
   const productNameAndId = await ProductModel.addProduct(name);
 
   return productNameAndId;
-};
-
-const addSales = async (items) => {
-  const sale = await ProductModel.addSales(items);
-  return sale;
-};
-
-const checkIds = async (items) => {
-  const ids = await ProductModel.getProductsIds();
-  const idsArray = ids.map((idObject) => idObject.id);
-  let check;
-  items.forEach(({ productId }) => {
-    if (!idsArray.includes(productId)) {
-      check = false;
-    }
-  });
-
-  if (check === false) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Product not found',
-      },
-    };
-  }
-  return {};
 };
 
 // PUT
@@ -113,7 +67,6 @@ const updateProduct = async (id, name) => {
 };
 
 // DELETE
-
 const deleteProduct = async (id) => {
   const result = await ProductModel.deleteProduct(id);
   if (!result.affectedRows) {
@@ -132,10 +85,6 @@ module.exports = {
   getAll,
   getById,
   addProduct,
-  addSales,
-  checkIds,
-  getSales,
-  getSalesById,
   updateProduct,
   deleteProduct,
 };

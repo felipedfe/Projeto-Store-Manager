@@ -75,35 +75,6 @@ describe('Busca por produtos (Camada Model)', () => {
   })
 })
 
-describe('Busca por vendas (Camada Model)', () => {
-  describe('Busca por todas as vendas', () => {
-    before(() => {
-      sinon.stub(connection, 'execute').resolves([getSalesReturn]);
-    });
-    after(() => {
-      connection.execute.restore();
-    });
-
-    it('Retorna um array com todas as vendas', async () => {
-      const sales = await ProductModel.getSales();
-
-      expect(sales).to.be.a('array');
-      expect(sales[0]).to.have.property('saleId' && 'date' && 'productId' && 'quantity')
-    })
-  })
-
-  describe('Busca venda por um ID válido', () => {
-    // before(async () => {
-    //   sinon.stub(connection, 'execute').resolves([getSalesReturn[0]]);
-    // });
-    // after(async () => {
-    //   connection.execute.restore();
-    // });
-    it('')
-  })
-  
-})
-
 describe('Adiciona produtos (Camada Model)', () => {
   describe('Adiciona produto com sucesso', () => {
     before( () => {

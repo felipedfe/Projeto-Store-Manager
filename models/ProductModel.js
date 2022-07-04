@@ -1,42 +1,10 @@
 const connection = require('./connection');
 
-// Sales queries
-const addSalesQuery = 'INSERT INTO StoreManager.sales (date) VALUES (NOW());';
-const productsQuery = `
-  INSERT INTO StoreManager.sales_products
-  (sale_id, product_id, quantity) VALUES (?, ?, ?);`;
-const productIdQuery = 'SELECT id FROM StoreManager.products;';
-const getSalesQuery = `
-  SELECT sp.sale_id, sp.product_id, sp.quantity, s.date 
-  FROM StoreManager.sales_products as sp
-  INNER JOIN StoreManager.sales as s
-  ON sp.sale_id = s.id
-  ORDER BY sp.sale_id ASC, sp.product_id ASC;`;
-const getBySaleIdQuery = `
-  SELECT sp.sale_id, sp.product_id, sp.quantity, s.date 
-  FROM StoreManager.sales_products as sp
-  INNER JOIN StoreManager.sales as s
-  ON sp.sale_id = s.id
-  WHERE sp.sale_id = ?
-  ORDER BY sp.sale_id ASC, sp.product_id ASC;`;
 const updateProductQuery = `
   UPDATE StoreManager.products
   SET name = ?
   WHERE id = ?;`;
 const deleteProductQuery = 'DELETE FROM StoreManager.products WHERE id = ?;';
-
-const serializeSales = (sales) => sales.map((item) => ({
-  saleId: item.sale_id,
-  date: item.date,
-  productId: item.product_id,
-  quantity: item.quantity,
-}));
-
-const serializeSalesById = (sale) => sale.map((item) => ({
-  date: item.date,
-  productId: item.product_id,
-  quantity: item.quantity,
-}));
 
 // GET
 const getAll = async () => {
@@ -56,21 +24,6 @@ const getById = async (id) => {
   return product[0];
 };
 
-const getSales = async () => {
-  const [sales] = await connection.execute(getSalesQuery);
-  return serializeSales(sales);
-};
-
-const getSalesById = async (id) => {
-  const [sale] = await connection.execute(getBySaleIdQuery, [id]);
-  return serializeSalesById(sale);
-};
-
-const getProductsIds = async () => {
-  const [ids] = await connection.execute(productIdQuery);
-  return ids;
-};
-
 // POST
 const addProduct = async (name) => {
   const query = 'INSERT INTO StoreManager.products(name) VALUES(?);';
@@ -82,21 +35,7 @@ const addProduct = async (name) => {
   };
 };
 
-const addSales = async (itemsSold) => {
-  const [sale] = await connection.execute(addSalesQuery);
-
-  itemsSold.map(async ({ productId, quantity }) => {
-    await connection.execute(productsQuery, [sale.insertId, productId, quantity]);
-  });
-
-  return {
-    id: sale.insertId,
-    itemsSold,
-  };
-};
-
 // PUT
-
 const updateProduct = async (id, name) => {
   const [result] = await connection.execute(updateProductQuery, [name, id]);
   console.log('result --> ', result);
@@ -111,7 +50,6 @@ const updateProduct = async (id, name) => {
 };
 
 // DELETE
-
 const deleteProduct = async (id) => {
   const [result] = await connection.execute(deleteProductQuery, [id]);
   return result;
@@ -121,10 +59,6 @@ module.exports = {
   getAll,
   getById,
   addProduct,
-  addSales,
-  getProductsIds,
-  getSales,
-  getSalesById,
   updateProduct,
   deleteProduct,
 };

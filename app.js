@@ -1,6 +1,8 @@
 const express = require('express');
-const ProductController = require('./controllers/ProductController');
+
 const errorMiddleware = require('./middlewares/error');
+const productsRouter = require('./router/productsRouter');
+const salesRouter = require('./router/salesRouter');
 
 const app = express();
 app.use(express.json());
@@ -10,14 +12,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products/:id', ProductController.getById);
-app.put('/products/:id', ProductController.updateProduct);
-app.delete('/products/:id', ProductController.deleteProduct);
-app.get('/sales/:id', ProductController.getSalesById);
-app.get('/products', ProductController.getAll);
-app.post('/products', ProductController.addProduct);
-app.get('/sales', ProductController.getSales);
-app.post('/sales', ProductController.addSales);
+app.use('/products', productsRouter);
+app.use('/sales', salesRouter);
 
 app.use(errorMiddleware);
 // não remova essa exportação, é para o avaliador funcionar

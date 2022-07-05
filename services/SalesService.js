@@ -1,4 +1,5 @@
 const SalesModel = require('../models/SalesModel');
+const { throwError } = require('../helpers');
 
 const checkIds = async (items) => {
   const ids = await SalesModel.getProductsIds();
@@ -10,14 +11,8 @@ const checkIds = async (items) => {
     }
   });
 
-  if (check === false) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Product not found',
-      },
-    };
-  }
+  if (check === false) return throwError('notFound', 'Product not found');
+
   return {};
 };
 
@@ -30,14 +25,7 @@ const getSales = async () => {
 const getSalesById = async (id) => {
   const sale = await SalesModel.getSalesById(id);
 
-  if (sale.length === 0) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Sale not found',
-      },
-    };
-  }
+  if (sale.length === 0) return throwError('notFound', 'Product not found');
 
   return sale;
 };
@@ -51,14 +39,8 @@ const addSales = async (items) => {
 // DELETE
 const deleteSales = async (id) => {
   const result = await SalesModel.deleteSales(id);
-  if (!result.affectedRows) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Sale not found',
-      },
-    };
-  }
+  
+  if (!result.affectedRows) return throwError('notFound', 'Product not found');
 
   return {};
 };

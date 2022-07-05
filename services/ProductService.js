@@ -1,4 +1,5 @@
 const ProductModel = require('../models/ProductModel');
+const { throwError } = require('../helpers');
 
 // aqui é retornado um array com um boolean e um erro caso o NAME for inválido
 const validateName = (name) => {
@@ -30,15 +31,14 @@ const getAll = async () => {
 const getById = async (id) => {
   const product = await ProductModel.getById(id);
 
-  if (!product) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Product not found',
-      },
-    };
-  }
+  if (!product) return throwError('notFound', 'Product not found');
+
   return product;
+};
+
+const searchProducts = async (q) => {
+  const result = await ProductModel.searchProducts(q);
+  return result;
 };
 
 // POST
@@ -54,14 +54,7 @@ const addProduct = async (name) => {
 const updateProduct = async (id, name) => {
   const update = await ProductModel.updateProduct(id, name);
 
-  if (!update.affectedRows) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Product not found',
-      },
-    };
-  }
+  if (!update.affectedRows) return throwError('notFound', 'Product not found');
 
   return update.response;
 };
@@ -69,14 +62,8 @@ const updateProduct = async (id, name) => {
 // DELETE
 const deleteProduct = async (id) => {
   const result = await ProductModel.deleteProduct(id);
-  if (!result.affectedRows) {
-    return {
-      error: {
-        code: 'notFound',
-        message: 'Product not found',
-      },
-    };
-  }
+ 
+  if (!result.affectedRows) return throwError('notFound', 'Product not found');
 
   return {};
 };
@@ -87,4 +74,5 @@ module.exports = {
   addProduct,
   updateProduct,
   deleteProduct,
+  searchProducts,
 };

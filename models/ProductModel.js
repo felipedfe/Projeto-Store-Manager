@@ -5,6 +5,7 @@ const updateProductQuery = `
   SET name = ?
   WHERE id = ?;`;
 const deleteProductQuery = 'DELETE FROM StoreManager.products WHERE id = ?;';
+const searchQuery = 'SELECT * FROM StoreManager.products WHERE name LIKE ?';
 
 // GET
 const getAll = async () => {
@@ -22,6 +23,12 @@ const getById = async (id) => {
   }
 
   return product[0];
+};
+
+const searchProducts = async (q) => {
+  const [result] = await connection.execute(searchQuery, [`%${q}%`]);
+  console.log(result);
+  return result;
 };
 
 // POST
@@ -61,4 +68,5 @@ module.exports = {
   addProduct,
   updateProduct,
   deleteProduct,
+  searchProducts,
 };

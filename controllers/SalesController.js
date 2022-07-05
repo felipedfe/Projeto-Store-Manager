@@ -38,8 +38,19 @@ const addSales = async (req, res, next) => {
   return res.status(201).json(sale);
 };
 
+// DELETE
+const deleteSales = async (req, res, next) => {
+  const { id } = req.params;
+  const result = await SalesService.deleteSales(id);
+
+  if (result.error) return next(result.error);
+
+  return res.status(204).end();
+};
+
 module.exports = {
   getSales,
   addSales,
+  deleteSales,
   getSalesById,
 };

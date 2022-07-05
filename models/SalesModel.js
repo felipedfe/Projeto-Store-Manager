@@ -23,6 +23,8 @@ const getBySaleIdQuery = `
   WHERE sp.sale_id = ?
   ORDER BY sp.sale_id ASC, sp.product_id ASC;`;
 
+const deleteSaleQuery = 'DELETE FROM StoreManager.sales WHERE id = ?;';
+
 const serializeSales = (sales) => sales.map((item) => ({
   saleId: item.sale_id,
   date: item.date,
@@ -66,9 +68,16 @@ const addSales = async (itemsSold) => {
   };
 };
 
+// DELETE
+const deleteSales = async (id) => {
+  const [result] = await connection.execute(deleteSaleQuery, [id]);
+  return result;
+};
+
 module.exports = {
   getSales,
   getProductsIds,
   addSales,
   getSalesById,
+  deleteSales,
 };

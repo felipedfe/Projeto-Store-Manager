@@ -27,7 +27,7 @@ const getById = async (id) => {
 
 const searchProducts = async (q) => {
   const [result] = await connection.execute(searchQuery, [`%${q}%`]);
-  console.log(result);
+
   return result;
 };
 
@@ -35,7 +35,7 @@ const searchProducts = async (q) => {
 const addProduct = async (name) => {
   const query = 'INSERT INTO StoreManager.products(name) VALUES(?);';
   const [product] = await connection.execute(query, [name]);
-  console.log(product);
+
   return {
     id: product.insertId,
     name,
@@ -45,7 +45,7 @@ const addProduct = async (name) => {
 // PUT
 const updateProduct = async (id, name) => {
   const [result] = await connection.execute(updateProductQuery, [name, id]);
-  console.log('result --> ', result);
+
   const { affectedRows } = result;
   return {
     response: {

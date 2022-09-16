@@ -1,16 +1,9 @@
-# 🚧 README em construção 🚧
+# Store Manager
 
-<!-- Olá, Tryber!
+## •Descrição
+Primeira API RESTful desenvolvida durante o curso de desenvolvimento de web Trybe (https://www.betrybe.com/). Com ela conseguimos criar, visualizar, deletar e atualizar produtos e vendas de uma loja. Utilizamos a conexão com um banco de dados MySQL acessando-o conforme a necessidade dos endpoints utilizando queries puras.
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
-
-É essencial que você preencha esse documento por conta própria, ok?
-
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
-
--->
+## •Tecnologias
+- Node.js
+- Express
+- SQL
